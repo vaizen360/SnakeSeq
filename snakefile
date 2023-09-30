@@ -1,14 +1,13 @@
-#First rule is the rule all - this is a snakemake feature necessary for the use of wildcards, 
-#Which in this workflow we need to include in order to actually be able to sort through more than
-#one sample and work with two reads. The rule all includes the FINAL output files, which in this
-#workflow is going to be 3 bigwig files per sample.
-
-# Set your working directory! This is where the fastq files go.
+#The purpose of this code is to be able to process a large dataset of ChIP
+#Sequencing files, from trimming to producing three separate bigwig files, 
+#One for both the forward and reverse strand reads, and two separate for 
+#The reverse and forward strands. These bigwig files can further be processed
+#And visualized using deeptools, separately. 
 
 ## YOUR CODE HERE
 base_path = "/Users/valeriaaizen/Documents/code/notebooks/snakemake-attempt/"
 # add some shell code here to activate the `myenv_x86` conda environment
-
+conda: "/Users/valeriaaizen/myenv_86.yaml"
 # Define list of sample names
 samples = ["M28B_150k", "M31A_150k"]
 
@@ -49,6 +48,7 @@ rule fastp_adaptors:
 
 #Now we want to try to take the final trimmed and processed fastq file versions and align them to a reference genome - in this case hg38. This will produce
 #A "sam all file including both the forward and the reverse reads"
+#The Genome provided here is hg38 but can be modified to be any reference genome file of interest. 
 rule bowtie2:
 	input:
 		R1_final = (base_path + "trimmed/{sample}_1_final.fq"),
@@ -218,12 +218,13 @@ rule deeptools_bigwigreverse:
 		bin_size=50
 	shell:
 		"""
-		 bamCoverage \
+		 bamCoverage \a
             --bam {input.bam_reverse} \
             --outFileName {output.bigwig_reverse} \
             --binSize {params.bin_size} \
             --normalizeUsing RPKM
 		"""
+
 
 
 
