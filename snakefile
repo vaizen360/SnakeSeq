@@ -1,22 +1,21 @@
-#The purpose of this code is to be able to process a large dataset of ChIP
+#The purpose of this code is to process a large dataset of ChIP
 #Sequencing files, from trimming to producing three separate bigwig files, 
-#One for both the forward and reverse strand reads, and two separate for 
-#The reverse and forward strands. These bigwig files can further be processed
-#And visualized using deeptools, separately. 
+#one for both the forward and reverse strand reads, and two separate for 
+#the reverse and forward strands. These bigwig files can further be processed
+#and visualized using deeptools, separately. 
 
-## YOUR CODE HERE
+## Define your base path here
 base_path = "/Users/valeriaaizen/Documents/code/notebooks/snakemake-attempt/"
-# add some shell code here to activate the `myenv_x86` conda environment
+
+# activate the conda environment
 conda: "/Users/valeriaaizen/myenv_86.yaml"
+
 # Define list of sample names
 samples = ["M28B_150k", "M31A_150k"]
 
 #Now write the rule all with all the target files
 rule all:
 	input:
-		#expand(base_path + "bai/{sample}_all.bam.bai", sample=samples),
-       #expand(base_path + "bai/{sample}_forward.bam.bai", sample=samples),
-        #expand(base_path + "bai/{sample}_reverse.bam.bai", sample=samples),
 		expand(base_path + "bigwig/{sample}_forward.bw", sample=samples),
 		expand(base_path + "bigwig/{sample}_reverse.bw", sample=samples),
 		expand(base_path + "bigwig/{sample}.bw", sample=samples)
@@ -24,12 +23,11 @@ rule all:
 # Define your other rules for the workflow below
 
 #First rule utilizes fastp to trim the adaptor sequences and any bad reads from the fastq files. 
-#The output should produce a trimmed read1 and read1 (R1 and R2) file in a new folder "trimmed" in the 
+#The output should produce a trimmed read1 and read2 (R1 and R2) file in a new folder "trimmed" in the 
 #snakemake attempt directory. It will also produce a jsonlog and html link with a summary of the reads.
 
-#This specific fastp rule has been updated to have a few new features. For example it is able to identify reads 
-#With a quality score lower than 10 and and remove them from the dataset, treat the dataset as interleaved
-#And not include duplicates. 
+#This specific fastp rule is able to identify reads with a quality score 
+#lower than 10 and and remove them from the dataset, treat the dataset as interleaved and not include duplicates. 
 
 rule fastp_adaptors:
 	input:
