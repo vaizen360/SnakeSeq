@@ -37,7 +37,7 @@ rule fastp_adaptors:
 	output:
 		R1_final = (base_path + "trimmed/{sample}_1_final.fq"),
 		R2_final = (base_path + "trimmed/{sample}_2_final.fq"),
-        jsonlog = (base_path + "trimmed/{sample}_jsonlog.json"),
+        	jsonlog = (base_path + "trimmed/{sample}_jsonlog.json"),
 		htmllog = (base_path + "trimmed/{sample}_htmllog.html")
 	shell:
 		"""
