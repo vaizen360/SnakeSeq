@@ -178,11 +178,11 @@ rule deeptools_bigwigall:
 		bin_size=50
 	shell:
 		"""
-		 bamCoverage \
-            --bam {input.aligned_bam} \
-            --outFileName {output.bigwig_all} \
-            --binSize {params.bin_size} \
-            --normalizeUsing RPKM
+		bamCoverage \
+			--bam {input.aligned_bam} \
+			--outFileName {output.bigwig_all} \
+			--binSize {params.bin_size} \
+			--normalizeUsing RPKM
 		"""
 
 #Bigwig for forward strand
@@ -198,10 +198,10 @@ rule deeptools_bigwigforward:
 	shell:
 		"""
 		 bamCoverage \
-            --bam {input.bam_forward} \
-            --outFileName {output.bigwig_forward} \
+			--bam {input.bam_forward} \
+			--outFileName {output.bigwig_forward} \
 			--binSize {params.bin_size} \
-            --normalizeUsing RPKM
+			--normalizeUsing RPKM
 		"""
 
 #Bigwig for reverse strand
@@ -217,10 +217,10 @@ rule deeptools_bigwigreverse:
 	shell:
 		"""
 		 bamCoverage \a
-            --bam {input.bam_reverse} \
-            --outFileName {output.bigwig_reverse} \
-            --binSize {params.bin_size} \
-            --normalizeUsing RPKM
+			--bam {input.bam_reverse} \
+			--outFileName {output.bigwig_reverse} \
+			--binSize {params.bin_size} \
+			--normalizeUsing RPKM
 		"""
 
 
