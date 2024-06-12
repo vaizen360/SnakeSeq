@@ -26,3 +26,7 @@ The pipeline is built in snakemake and requires you to have downloaded the follo
 Conda version 23.5.0 and python version 3.9.16. This code was run on an M1 13.4.1 macOS Ventura system, which initially was not compatible with downloading fastp. If you have arm64 architecture instead of x86, as most newer mac computers do, you may need to create a separate conda environment. The yaml file to configure your workspace to run the snakefile is included in the repository. 
 
 To run the snakefile, activate the myenv_86 conda environment in terminal, and then use ```snakemake --cores 4```
+
+The following workflow image demonstrates the dependencies of the rules and the order in which they would be executed. If you'd like to create your own workflow image, you can use '''snakemake --dag|dot - Tpng>workflow_dag.png'''
+
+![workflow_dag](https://github.com/vaizen360/SnakeSeq/assets/134992475/45ab08c3-107c-40f6-b15e-8db57d1785e2)
