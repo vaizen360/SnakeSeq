@@ -4,23 +4,23 @@
 #the reverse and forward strands. These bigwig files can further be processed
 #and visualized using deeptools, separately. 
 
-## Define your base path here
+## Define base path here
 base_path = "/Users/valeriaaizen/Documents/code/notebooks/snakemake-attempt/"
 
-# activate the conda environment
+# activate conda environment
 conda: "/Users/valeriaaizen/myenv_86.yaml"
 
 # Define list of sample names
 samples = ["M28B_150k", "M31A_150k"]
 
-#Now write the rule all with all the target files
+#Rule all with all the target files
 rule all:
 	input:
 		expand(base_path + "bigwig/{sample}_forward.bw", sample=samples),
 		expand(base_path + "bigwig/{sample}_reverse.bw", sample=samples),
 		expand(base_path + "bigwig/{sample}.bw", sample=samples)
 
-# Define your other rules for the workflow below
+# Define other rules for the workflow below
 
 #First rule utilizes fastp to trim the adaptor sequences and any bad reads from the fastq files. 
 #The output should produce a trimmed read1 and read2 (R1 and R2) file in a new folder "trimmed" in the 
@@ -69,9 +69,9 @@ rule samtools_sort:
 		"""
 		samtools sort -@ {threads} -o {output.aligned_bam} {input.aligned_sam}
 		"""
-#We want to samtools sort four times now, separately, the forward reads from the reverse and then merge them
+#Samtools will now sort four times, separately, the forward reads from the reverse and then merge them
 #For reference, the samtools flags for the reverse and forward reads are not in the original fastq files - these
-#flags now exist in the aligned sam file you created in the bowtie2 rule
+#flags now exist in the aligned sam file created in the bowtie2 rule
 rule samtools_sort99:
 	input:
 		aligned_sam = (base_path + "align/{sample}_aligned.sam")
@@ -111,7 +111,7 @@ rule samtools_sort163:
 		samtools view -h -F 163 {input.aligned_sam} > {output.aligned_163_bam}
 		"""
 #Now that we have separated the sorted sam file into four different bam files with forward and reverse reads
-#We want to concatenated all the forward bam files together and all the reverse bam files together. So in the 
+#We want to concatenate all the forward bam files together and all the reverse bam files together. So in the 
 #End we should have reverse, forward, and TOTAL bam files.  
 rule merge_99147:
 	input:
